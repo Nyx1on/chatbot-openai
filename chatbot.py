@@ -2,46 +2,53 @@ import openai
 import random
 
 # Set up the OpenAI API key and GPT-3 engine
-openai.api_key = "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"
+openai.api_key = "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"
 engine = "davinci"
 
 # Define the personalities and conversation styles
 personalities = {
-    "confident": "I know what I'm talking about.",
-    "passionate": "I really care about this topic.",
-    "calm": "Let's take a step back and think about this.",
-    "empathetic": "I can understand where you're coming from.",
-    "angry": "I'm getting really frustrated with this.",
-    "impatient": "Can we please hurry this up?",
+    "confident": "confident",
+    "passionate": "passionate",
+    "calm": "calm",
+    "empathetic": "empathetic",
+    "angry": "angry",
+    "impatient": "impatient",
 }
 
 styles = {
-    "dramatic": "This is such a huge deal!",
-    "sarcastic": "Oh, joy.",
-    "funny": "Ha ha, that's hilarious.",
-    "laconic": "Meh.",
-    "cowboy": "Howdy, partner!",
-    "anime": "OwO what's this?",
+    "dramatic": "dramatic",
+    "sarcastic": "sarcastic",
+    "funny": "funny",
+    "laconic": "laconic",
+    "cowboy": "cowboy",
+    "anime": "anime",
 }
 
 # Define a function to generate a response based on the chosen personality and conversation style
+
+
 def generate_response(prompt, personality, style, max_tokens=50):
-    prompt += f" Personality: {personalities[personality]}. Style: {styles[style]}."
-    response = openai.Completion.create(
-        engine=engine,
-        prompt=prompt,
-        max_tokens=max_tokens,
+    prompt += f"reply with personality: {personalities[personality]} and style: {styles[style]}."
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "user", "content": prompt}
+        ]
     )
-    message = response.choices[0].text.strip()
+    message = response.choices[0].message.content
     return message
 
 # Define a function to handle user input and generate a response
+
+
 def handle_input(prompt, personality, style):
     # Generate a response based on the user input and chosen personality and style
     message = generate_response(prompt, personality, style)
     return message
 
 # Define a function to run the chatbot
+
+
 def run_chatbot():
     print("Welcome to the chatbot!")
     while True:
@@ -50,10 +57,13 @@ def run_chatbot():
             print("Chatbot: Goodbye!")
             break
         else:
-            personality = input("Choose a personality type: confident, passionate, calm, empathetic, angry, impatient: ")
-            style = input("Choose a conversation style: dramatic, sarcastic, funny, laconic, cowboy, anime: ")
+            personality = input(
+                "Choose a personality type: confident, passionate, calm, empathetic, angry, impatient: ")
+            style = input(
+                "Choose a conversation style: dramatic, sarcastic, funny, laconic, cowboy, anime: ")
             message = handle_input(prompt, personality, style)
             print(f"Chatbot: {message}")
+
 
 # Run the chatbot
 run_chatbot()
