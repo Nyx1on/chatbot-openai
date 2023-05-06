@@ -2,7 +2,7 @@ import openai
 import random
 
 # Set up the OpenAI API key and GPT-3 engine
-openai.api_key = "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"
+openai.api_key = "API_KEY"
 engine = "davinci"
 
 # Define the personalities and conversation styles
